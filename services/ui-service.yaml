@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-ui-service
+  labels:
+    app: my-ui-service
+spec:
+  type: NodePort
+  ports:
+  - port: 8865
+    name: port-1
+    protocol: TCP
+    targetPort: 8865
+  - port: 9965
+    name: port-2
+    protocol: TCP
+    targetPort: 9965
+  - port: 8080
+    name: port-3
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: my-ui-deployment

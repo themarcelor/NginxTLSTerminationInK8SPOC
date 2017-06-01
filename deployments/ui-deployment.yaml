@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: my-ui-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: my-ui-deployment
+    spec:
+      containers:
+      - name: n3x
+        image: themarcelor/new-centos-nginx:latest
+        command: ["/bin/bash","-x","/usr/local/bin/start_on_docker.sh"]
+        env:
+        - name: SSL
+          value: "true"
+        ports:
+        - containerPort: 8895
+        - containerPort: 9965
+        volumeMounts:
+        - mountPath: "/etc/ssl/certs"
+          name: ssl-secret-volume
+        - mountPath: "/opt/scy/media"
+          name: rp-conf
+      - name: ui
+        image: themarcelor/my-tomcat-wss:latest
+        imagePullPolicy: Always
+        command: ["/bin/bash","-x","/usr/local/bin/start_on_docker.sh"]
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: "/opt/scy/media"
+          name: app-conf
+      volumes:
+      - name: ssl-secret-volume
+        secret:
+          secretName: my-nginx-tls
+      - name: rp-conf
+        configMap:
+          name: nginx-server-config
+      - name: app-conf
+        configMap:
+          name: tomcat-server-config
