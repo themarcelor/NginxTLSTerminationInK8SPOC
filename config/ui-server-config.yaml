@@ -47,7 +47,6 @@ data:
                 proxy_set_header           Host $host;
                 proxy_set_header           Access-Control-Allow-Origin *;
 
-                # forward the "Server: Workday User Interface Service" header
                 proxy_pass_header          Server;
 
                 # enable Web Sockets
