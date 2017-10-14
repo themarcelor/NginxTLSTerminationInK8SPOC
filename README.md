@@ -1,4 +1,4 @@
-# NginxTLSTerminationInK8SPOC
+# Nginx TLS Termination In Kubernetes POC
 
 The diagram below illustrates the flow of the request.
 
